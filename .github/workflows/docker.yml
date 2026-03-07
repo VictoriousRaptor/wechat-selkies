@@ -58,6 +58,24 @@ jobs:
           type=semver,pattern={{major}}
           type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'master') || startsWith(github.ref, 'refs/tags/') }}
 
+    - name: Import Ubuntu Archive Keyring
+      run: |
+        # Download the key and convert to GPG binary format
+        curl -fsSL "https://keyserver.ubuntu.com" | \
+        sudo gpg --dearmor -o /usr/share/keyrings/ubuntu-archive-keyring.gpg
+    
+    - name: Configure and Update APT
+      run: |
+        sudo tee /etc/apt/sources.list.d/custom-archive.sources <<EOF
+        Types: deb
+        URIs: http://archive.ubuntu.com/ubuntu/
+        Suites: noble noble-updates noble-backports
+        Components: main universe restricted multiverse
+        Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+        EOF
+        sudo apt-get update
+
+
     - name: Build and push Docker image
       id: build-image
       uses: docker/build-push-action@v5
