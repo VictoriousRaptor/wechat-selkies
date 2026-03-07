@@ -60,9 +60,8 @@ jobs:
 
     - name: Import Ubuntu Archive Keyring
       run: |
-        curl -fsSL "https://keyserver.ubuntu.com" | \
-        sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/ubuntu-archive-keyring.gpg
-    
+        sudo gpg --no-default-keyring --keyring /usr/share/keyrings/ubuntu-archive-keyring.gpg --keyserver hkps://keyserver.ubuntu.com --recv-keys 871920D1991BC93C 112695A0E562B32A
+
     - name: Configure and Update APT
       run: |
         sudo tee /etc/apt/sources.list.d/custom-archive.sources <<EOF
