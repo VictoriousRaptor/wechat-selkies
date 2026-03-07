@@ -96,4 +96,4 @@ ENV AUTO_START_QQ="false"
 RUN cp /usr/share/icons/hicolor/128x128/apps/wechat.png /usr/share/selkies/www/icon.png
 
 # add local files
-COPY /root /
+COPY root /
