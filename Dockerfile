@@ -15,6 +15,8 @@ ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 RUN echo "🏗️ Building WeChat-Selkies on $BUILDPLATFORM, targeting $TARGETPLATFORM"
 
+RUN apt-get remove -y intel-media-va-driver
+
 # set environment variables
 RUN apt-get update && \
     apt-get install -y fonts-noto-cjk libxcb-icccm4 libxcb-image0 libxcb-keysyms1 \
@@ -28,7 +30,8 @@ RUN apt-get update && \
     libxcomposite1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 \
     libxss1 libxtst6 libatomic1 libxcomposite1 libxrender1 libxrandr2 libxkbcommon-x11-0 \
     libfontconfig1 libdbus-1-3 libnss3 libx11-xcb1 python3-tk stalonetray inotify-tools \
-    libva2 intel-media-va-driver-non-free libvpx9
+    intel-media-va-driver-non-free \
+    libvpx9
 
 RUN pip install --no-cache-dir python-xlib
 
@@ -97,3 +100,5 @@ RUN cp /usr/share/icons/hicolor/128x128/apps/wechat.png /usr/share/selkies/www/i
 
 # add local files
 COPY root /
+
+RUN chmod -R 0777 /scripts
