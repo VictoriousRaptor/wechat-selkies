@@ -58,21 +58,6 @@ jobs:
           type=semver,pattern={{major}}
           type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'master') || startsWith(github.ref, 'refs/tags/') }}
 
-    - name: Import Ubuntu Archive Keyring
-      run: |
-        sudo gpg --no-default-keyring --keyring /usr/share/keyrings/ubuntu-archive-keyring.gpg --keyserver hkps://keyserver.ubuntu.com --recv-keys 871920D1991BC93C 112695A0E562B32A
-
-    - name: Configure and Update APT
-      run: |
-        sudo tee /etc/apt/sources.list.d/custom-archive.sources <<EOF
-        Types: deb
-        URIs: http://archive.ubuntu.com/ubuntu/
-        Suites: noble noble-updates noble-backports
-        Components: main universe restricted multiverse
-        Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
-        EOF
-        sudo apt-get update
-
 
     - name: Build and push Docker image
       id: build-image
@@ -83,8 +68,8 @@ jobs:
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
+        # cache-from: type=gha
+        # cache-to: type=gha,mode=max
 
     - name: Generate artifact attestation
       if: github.event_name != 'workflow_dispatch'
