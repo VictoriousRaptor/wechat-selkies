@@ -60,9 +60,8 @@ jobs:
 
     - name: Import Ubuntu Archive Keyring
       run: |
-        # Download the key and convert to GPG binary format
         curl -fsSL "https://keyserver.ubuntu.com" | \
-        sudo gpg --dearmor -o /usr/share/keyrings/ubuntu-archive-keyring.gpg
+        sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/ubuntu-archive-keyring.gpg
     
     - name: Configure and Update APT
       run: |
