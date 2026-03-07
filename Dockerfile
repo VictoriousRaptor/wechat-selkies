@@ -17,6 +17,8 @@ RUN echo "🏗️ Building WeChat-Selkies on $BUILDPLATFORM, targeting $TARGETPL
 
 # RUN apt-get remove -y intel-media-va-driver
 
+RUN add-apt-repository non-free && apt update && apt install intel-media-va-driver-non-free
+
 # set environment variables
 RUN apt-get update && \
     apt-get install -y fonts-noto-cjk libxcb-icccm4 libxcb-image0 libxcb-keysyms1 \
@@ -31,7 +33,6 @@ RUN apt-get update && \
     libxss1 libxtst6 libatomic1 libxcomposite1 libxrender1 libxrandr2 libxkbcommon-x11-0 \
     libfontconfig1 libdbus-1-3 libnss3 libx11-xcb1 python3-tk stalonetray inotify-tools \
     libva2 \
-    intel-media-va-driver-non-free \
     libvpx9
 
 RUN pip install --no-cache-dir python-xlib
