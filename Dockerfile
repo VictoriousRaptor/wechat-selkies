@@ -18,7 +18,7 @@ RUN echo "🏗️ Building WeChat-Selkies on $BUILDPLATFORM, targeting $TARGETPL
 # RUN apt-get remove -y intel-media-va-driver
 
 # set environment variables
-RUN sed -i 's/main$/main restricted universe multiverse/g' /etc/apt/sources.list \
+RUN sed -i 's/main$/main restricted universe multiverse/g' /etc/apt/sources.list && \
     apt-get update && \
     apt-get install -y fonts-noto-cjk libxcb-icccm4 libxcb-image0 libxcb-keysyms1 \
     libxcb-render-util0 libxcb-xkb1 libxkbcommon-x11-0 \
