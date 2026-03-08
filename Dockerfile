@@ -1,5 +1,5 @@
 # WeChat for Linux using Selkies baseimage
-FROM ghcr.io/linuxserver/baseimage-selkies:latest
+FROM ghcr.io/linuxserver/baseimage-selkies:debiantrixie
 
 # Metadata labels
 LABEL org.opencontainers.image.title="WeChat Selkies"
