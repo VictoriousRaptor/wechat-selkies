@@ -35,6 +35,12 @@ RUN if [ "$INSTALL_PCMANFM" = "true" ]; then \
         apt-get install -y --no-install-recommends pcmanfm; \
     fi
 
+# Enable restricted component (required for intel-media-va-driver-non-free) and install VA-API drivers
+RUN sed -i 's/^Components: main$/Components: main restricted/' /etc/apt/sources.list.d/ubuntu.sources && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends intel-media-va-driver-non-free vainfo && \
+    rm -rf /var/lib/apt/lists/*
+
 RUN pip install --no-cache-dir python-xlib
 
 # Install WeChat based on target architecture
