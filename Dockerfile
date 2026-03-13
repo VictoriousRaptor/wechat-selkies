@@ -29,6 +29,12 @@ RUN apt-get update && \
     libxss1 libxtst6 libatomic1 libxcomposite1 libxrender1 libxrandr2 libxkbcommon-x11-0 \
     libfontconfig1 libdbus-1-3 libnss3 libx11-xcb1 python3-tk stalonetray inotify-tools
 
+# Enable restricted component (required for intel-media-va-driver-non-free) and install VA-API drivers
+RUN sed -i 's/^Components: main$/Components: main restricted/' /etc/apt/sources.list.d/ubuntu.sources && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends intel-media-va-driver-non-free vainfo && \
+    rm -rf /var/lib/apt/lists/*
+
 RUN pip install --no-cache-dir python-xlib
 
 # Install WeChat based on target architecture
