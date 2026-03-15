@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Wayland mode autostart (Labwc compositor)
+# Runs instead of /defaults/autostart when PIXELFLUX_WAYLAND=true
+
+# Start WeChat in Wayland session if auto-start is enabled
+if [ "$AUTO_START_WECHAT" = "true" ]; then
+    if [ -f /usr/bin/wechat ]; then
+        nohup /usr/bin/wechat > /dev/null 2>&1 &
+    fi
+fi
+
+# Start QQ in Wayland session if auto-start is enabled
+if [ "$AUTO_START_QQ" = "true" ]; then
+    if [ -f /usr/bin/qq ]; then
+        nohup /usr/bin/qq --no-sandbox > /dev/null 2>&1 &
+    fi
+fi
+
+wait
