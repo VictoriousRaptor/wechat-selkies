@@ -61,7 +61,7 @@ jobs:
           type=semver,pattern={{major}}.{{minor}}
           type=semver,pattern={{major}}
           type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'master') || startsWith(github.ref, 'refs/tags/') }}
-          type=raw,value=wayland,enable=${{ github.event_name == 'workflow_dispatch' && github.ref == format('refs/heads/{0}', 'wayland-recovered') }}
+          type=raw,value=wayland,enable=${{ github.event_name == 'workflow_dispatch' && contains(github.ref, 'wayland') }}
 
     - name: Build and push Docker image
       id: build-image
@@ -77,6 +77,7 @@ jobs:
 
     - name: Extract metadata for minimal image
       id: meta-minimal
+      if: "!(github.event_name == 'workflow_dispatch' && contains(github.ref, 'wayland'))"
       uses: docker/metadata-action@v5
       with:
         images: |
@@ -93,6 +94,7 @@ jobs:
 
     - name: Build and push minimal Docker image
       id: build-minimal
+      if: "!(github.event_name == 'workflow_dispatch' && contains(github.ref, 'wayland'))"
       uses: docker/build-push-action@v5
       with:
         context: .
