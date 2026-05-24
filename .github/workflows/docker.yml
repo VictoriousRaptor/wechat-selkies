@@ -103,7 +103,7 @@ jobs:
         tags: ${{ steps.meta-minimal.outputs.tags }}
         labels: ${{ steps.meta-minimal.outputs.labels }}
         build-args: |
-          INSTALL_QQ=false
+          INSTALL_QQ=true
           INSTALL_PCMANFM=false
         cache-from: type=gha
         cache-to: type=gha,mode=max
