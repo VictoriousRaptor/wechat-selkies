@@ -3,6 +3,23 @@
 # Wayland mode autostart (Labwc compositor)
 # Runs instead of /defaults/autostart when PIXELFLUX_WAYLAND=true
 
+# populate ~/Desktop with application shortcuts (copy once, skip if already present)
+mkdir -p "$HOME/Desktop"
+[ -f /usr/share/applications/wechat.desktop ]   && cp -n /usr/share/applications/wechat.desktop   "$HOME/Desktop/"
+[ -f /usr/share/applications/chromium.desktop ] && cp -n /usr/share/applications/chromium.desktop "$HOME/Desktop/"
+[ -f /usr/share/applications/qq.desktop ]       && cp -n /usr/share/applications/qq.desktop       "$HOME/Desktop/"
+
+# copy default tint2 config if not present
+if [ ! -f "$HOME/.config/tint2/tint2rc" ]; then
+    mkdir -p "$HOME/.config/tint2"
+    cp /defaults/tint2rc "$HOME/.config/tint2/tint2rc"
+    # remove qq launcher entry if QQ is not installed
+    if [ ! -f /usr/share/applications/qq.desktop ]; then
+        sed -i '/launcher_item_app.*qq\.desktop/d' "$HOME/.config/tint2/tint2rc"
+    fi
+fi
+nohup tint2 > /dev/null 2>&1 &
+
 # register chromium as default URL handler
 gio mime x-scheme-handler/http chromium.desktop
 gio mime x-scheme-handler/https chromium.desktop

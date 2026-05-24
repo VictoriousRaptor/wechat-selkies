@@ -157,3 +157,6 @@ RUN cp /usr/share/icons/hicolor/128x128/apps/wechat.png /usr/share/selkies/www/i
 
 # add local files
 COPY /root /
+
+# ensure wrapper scripts are executable (Windows build hosts don't preserve execute bits)
+RUN chmod +x /usr/bin/chromium
