@@ -155,6 +155,11 @@ ENV NO_FULL="true"
 # update favicon
 RUN cp /usr/share/icons/hicolor/128x128/apps/wechat.png /usr/share/selkies/www/icon.png
 
+# patch qq.desktop: add --no-sandbox so desktop icon click works
+RUN if [ -f /usr/share/applications/qq.desktop ]; then \
+        sed -i 's|^Exec=/opt/QQ/qq |Exec=/opt/QQ/qq --no-sandbox |' /usr/share/applications/qq.desktop; \
+    fi
+
 # add local files
 COPY /root /
 
