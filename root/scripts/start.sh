@@ -35,14 +35,17 @@ if command -v inotifywait >/dev/null 2>&1; then
     done) >/dev/null 2>&1 &
 fi
 
-# copy default tint2 config if not present
+# initialise tint2 config (copy default on first run, then sync launcher entries every start)
 if [ ! -f "$HOME/.config/tint2/tint2rc" ]; then
     mkdir -p "$HOME/.config/tint2"
     cp /defaults/tint2rc "$HOME/.config/tint2/tint2rc"
-    # remove qq launcher entry if QQ is not installed
-    if [ ! -f /usr/share/applications/qq.desktop ]; then
-        sed -i '/launcher_item_app.*qq\.desktop/d' "$HOME/.config/tint2/tint2rc"
-    fi
+fi
+# sync qq launcher entry: add if QQ installed, remove if not
+if [ -f /usr/share/applications/qq.desktop ]; then
+    grep -q 'launcher_item_app.*qq\.desktop' "$HOME/.config/tint2/tint2rc" || \
+        sed -i '/launcher_item_app.*chromium/a launcher_item_app = /usr/share/applications/qq.desktop' "$HOME/.config/tint2/tint2rc"
+else
+    sed -i '/launcher_item_app.*qq\.desktop/d' "$HOME/.config/tint2/tint2rc"
 fi
 nohup tint2 > /dev/null 2>&1 &
 
