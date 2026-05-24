@@ -5,6 +5,7 @@
 <item label="QQ" icon="/usr/share/icons/hicolor/512x512/apps/qq.png"><action name="Execute"><command>/scripts/qq/qq-start.sh</command></action></item>
 <separator />
 <item label="File Manager" icon="/usr/share/pixmaps/xterm-color_48x48.xpm"><action name="Execute"><command>pcmanfm</command></action></item>
+<item label="Chromium" icon="/usr/share/icons/hicolor/48x48/apps/chromium.png"><action name="Execute"><command>/usr/bin/chromium</command></action></item>
 <item label="xterm" icon="/usr/share/pixmaps/xterm-color_48x48.xpm"><action name="Execute"><command>/usr/bin/xterm</command></action></item>
 </menu>
 </openbox_menu>

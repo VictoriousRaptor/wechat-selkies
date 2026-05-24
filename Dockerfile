@@ -19,9 +19,13 @@ RUN echo "🏗️ Building WeChat-Selkies on $BUILDPLATFORM, targeting $TARGETPL
 # Note: libgcc1 → libgcc-s1, libcups2 → libcups2t64, libgtk-3-0 → libgtk-3-0t64 (t64 ABI transition)
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+    chromium \
+    chromium-l10n \
     desktop-file-utils \
+    pcmanfm \
     fonts-noto-cjk \
     inotify-tools \
+    tint2 \
     libatk-bridge2.0-0 \
     libatk1.0-0 \
     libcairo2 \
@@ -65,10 +69,7 @@ RUN apt-get update && \
     libxrender1 \
     libxss1 \
     libxtst6 \
-    python3-tk \
-    python3-xlib \
-    shared-mime-info \
-    stalonetray && \
+    shared-mime-info && \
     rm -rf /var/lib/apt/lists/*
 
 # Install VA-API drivers for hardware video acceleration
@@ -103,6 +104,9 @@ RUN case "$TARGETPLATFORM" in \
     rm -f wechat.deb && \
     echo "✅ WeChat installation completed for $WECHAT_ARCH"
 
+# Rename system chromium and set wrapper script as the new /usr/bin/chromium
+RUN mv /usr/bin/chromium /usr/bin/chromium-real
+
 # Install QQ based on target architecture (optional)
 ARG INSTALL_QQ
 RUN if [ "$INSTALL_QQ" = "true" ]; then \
@@ -133,12 +137,11 @@ RUN apt-get autoclean && \
     rm -rf \
         /config/.cache \
         /config/.npm \
+        /usr/share/applications/tint2.desktop \
+        /usr/share/applications/tint2conf.desktop \
         /var/lib/apt/lists/* \
         /var/tmp/* \
         /tmp/*
-
-# configure openbox dock mode for stalonetray
-RUN sed -i '/<dock>/,/<\/dock>/s/<noStrut>no<\/noStrut>/<noStrut>yes<\/noStrut>/' /etc/xdg/openbox/rc.xml
 
 # set app name and environment
 ENV TITLE="WeChat-Selkies"

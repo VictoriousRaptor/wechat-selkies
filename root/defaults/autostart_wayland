@@ -3,10 +3,15 @@
 # Wayland mode autostart (Labwc compositor)
 # Runs instead of /defaults/autostart when PIXELFLUX_WAYLAND=true
 
+# register chromium as default URL handler
+gio mime x-scheme-handler/http chromium.desktop
+gio mime x-scheme-handler/https chromium.desktop
+gio mime application/x-terminal-emulator foot.desktop
+
 # Start WeChat in Wayland session if auto-start is enabled
 if [ "$AUTO_START_WECHAT" = "true" ]; then
     if [ -f /usr/bin/wechat ]; then
-        nohup /usr/bin/wechat > /dev/null 2>&1 &
+        nohup /usr/bin/wechat --ozone-platform=wayland > /dev/null 2>&1 &
     fi
 fi
 

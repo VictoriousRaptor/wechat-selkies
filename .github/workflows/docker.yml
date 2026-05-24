@@ -104,7 +104,7 @@ jobs:
         labels: ${{ steps.meta-minimal.outputs.labels }}
         build-args: |
           INSTALL_QQ=true
-          INSTALL_PCMANFM=false
+          INSTALL_PCMANFM=true
         cache-from: type=gha
         cache-to: type=gha,mode=max
 

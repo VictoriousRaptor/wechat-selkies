@@ -3,14 +3,6 @@
 # clean up stale dbus pid file to prevent startup failures after container restart
 rm -f /run/dbus/pid
 
-# configure openbox dock mode for stalonetray
-if [ ! -f /config/.config/openbox/rc.xml ] || grep -A20 "<dock>" /config/.config/openbox/rc.xml | grep -q "<noStrut>no</noStrut>"; then
-    mkdir -p /config/.config/openbox
-    [ ! -f /config/.config/openbox/rc.xml ] && cp /etc/xdg/openbox/rc.xml /config/.config/openbox/
-    sed -i '/<dock>/,/<\/dock>/s/<noStrut>no<\/noStrut>/<noStrut>yes<\/noStrut>/' /config/.config/openbox/rc.xml
-    openbox --reconfigure
-fi
-
 # configure default window behavior: open WeChat/QQ as normal windows instead of maximized
 OB_RC="/config/.config/openbox/rc.xml"
 if [ -f "$OB_RC" ] && ! grep -q '<application class="wechat"' "$OB_RC"; then
@@ -38,7 +30,16 @@ if command -v inotifywait >/dev/null 2>&1; then
     done) >/dev/null 2>&1 &
 fi
 
-nohup stalonetray --dockapp-mode simple > /dev/null 2>&1 &
+# copy default tint2 config if not present
+if [ ! -f "$HOME/.config/tint2/tint2rc" ]; then
+    mkdir -p "$HOME/.config/tint2"
+    cp /defaults/tint2rc "$HOME/.config/tint2/tint2rc"
+fi
+nohup tint2 > /dev/null 2>&1 &
+
+# register chromium as default URL handler
+gio mime x-scheme-handler/http chromium.desktop
+gio mime x-scheme-handler/https chromium.desktop
 
 # start WeChat application in the background if exists and auto-start enabled
 if [ "$AUTO_START_WECHAT" = "true" ]; then

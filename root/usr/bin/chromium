@@ -1,0 +1,15 @@
+#! /bin/bash
+
+BIN=/usr/bin/chromium-real
+
+# Cleanup stale singleton lock to prevent "already running" errors after restart
+if ! pgrep chromium > /dev/null; then
+  rm -f $HOME/.config/chromium/Singleton*
+fi
+
+# Wayland check: if labwc compositor is running, pass ozone platform flag
+if pgrep labwc > /dev/null 2>&1; then
+  WAYLAND="--ozone-platform=wayland"
+fi
+
+${BIN} --password-store=basic ${WAYLAND} --no-sandbox --test-type "$@"
