@@ -112,10 +112,10 @@ ARG INSTALL_QQ
 RUN if [ "$INSTALL_QQ" = "true" ]; then \
         case "$TARGETPLATFORM" in \
         "linux/amd64") \
-            QQ_URL="https://dldir1v6.qq.com/qqfile/qq/QQNT/Linux/QQ_3.2.27_260401_amd64_01.deb"; \
+            QQ_URL="https://qqdl.gtimg.cn/qqfile/QQNT/9.9.31/release/00e6a3e7/QQ_3.2.29_260528_amd64_01.deb"; \
             QQ_ARCH="x86_64" ;; \
         "linux/arm64") \
-            QQ_URL="https://dldir1v6.qq.com/qqfile/qq/QQNT/Linux/QQ_3.2.27_260401_arm64_01.deb"; \
+            QQ_URL="https://qqdl.gtimg.cn/qqfile/QQNT/9.9.31/release/00e6a3e7/QQ_3.2.29_260528_arm64_01.deb"; \
             QQ_ARCH="arm64" ;; \
         *) \
             echo "❌ Unsupported platform: $TARGETPLATFORM" >&2; \

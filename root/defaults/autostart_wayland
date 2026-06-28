@@ -27,10 +27,11 @@ nohup tint2 > /dev/null 2>&1 &
 # The baseimage creates rc.xml before autostart runs, so we patch rather than create
 LABWC_RC="$HOME/.config/labwc/rc.xml"
 if [ -f "$LABWC_RC" ]; then
-    for app in wechat qq; do
+    for app in wechat qq chromium; do
         grep -q "identifier=\"${app}\"" "$LABWC_RC" || \
             sed -i "/<\/windowRules>/i\    <windowRule identifier=\"${app}\" serverDecoration=\"no\" />" "$LABWC_RC"
     done
+    pkill -SIGHUP labwc
 fi
 
 # register chromium as default URL handler
